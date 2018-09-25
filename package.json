@@ -4,11 +4,22 @@
   "description": "Network Canvas Integration Tests",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "codaco",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
+    "babel-jest": "^23.6.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.6.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "jest": "^23.6.0",
+    "regenerator-runtime": "^0.12.1",
     "spectron": "^4.0.0"
+  },
+  "jest": {
+    "rootDir": "test",
+    "setupTestFrameworkScriptFile": "../config/setupTestFramework.js"
   }
 }

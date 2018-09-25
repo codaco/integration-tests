@@ -12,7 +12,9 @@
     "build:architect": "npm --prefix ./apps/Architect run build",
     "build:nc": "npm --prefix ./apps/Network-Canvas run build:electron",
     "build:server": "npm --prefix ./apps/Server run build",
+    "pretest": "node scripts/prepare-packages.js",
     "test": "jest --runInBand",
+    "posttest": "node scripts/remove-test-data.js",
     "test:interactive": "babel-node test/_run_interactive.js"
   },
   "author": "codaco",
@@ -25,6 +27,7 @@
     "eslint": "^5.6.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-plugin-import": "^2.14.0",
+    "fs-extra": "^7.0.0",
     "jest": "^23.6.0",
     "regenerator-runtime": "^0.12.1",
     "spectron": "^4.0.0"

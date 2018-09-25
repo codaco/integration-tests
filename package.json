@@ -14,8 +14,9 @@
     "build:server": "npm --prefix ./apps/Server run build",
     "pretest": "node scripts/prepare-packages.js",
     "test": "jest --runInBand",
-    "posttest": "node scripts/remove-test-data.js",
-    "test:interactive": "babel-node test/_run_interactive.js"
+    "posttest": "npm run clean-test-app-data",
+    "test:interactive": "babel-node scripts/run-interactive.js",
+    "clean-test-app-data": "node scripts/remove-test-data.js"
   },
   "author": "codaco",
   "license": "GPL-3.0-or-later",

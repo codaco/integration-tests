@@ -2,6 +2,10 @@
 const fs = require('fs');
 const { appNames, getPackageFile, getTestProductName } = require('../config/paths');
 
+/**
+ * By setting a different productName on the test builds, we cause Electron
+ * to use a different dataDir, and we don't interfere with dev (or prod) builds.
+ */
 appNames.forEach((appName) => {
   const packageFile = getPackageFile(appName);
   let contents;

@@ -1,4 +1,11 @@
 /* eslint-disable no-console */
+
+/**
+ * This resets app data by removing the test app directories.
+ * See prepare-packages.js; we use custom productNames for the test builds to
+ * not interfere with other builds.
+ */
+
 const fs = require('fs');
 const fsExtra = require('fs-extra');
 

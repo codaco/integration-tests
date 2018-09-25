@@ -4,11 +4,22 @@
   "description": "Network Canvas Integration Tests",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "install:apps": "npm run install:architect && npm run install:nc && npm run install:server",
+    "install:architect": "npm --prefix ./apps/Architect install ./apps/Architect",
+    "install:nc": "npm --prefix ./apps/Network-Canvas install ./apps/Network-Canvas",
+    "install:server": "npm --prefix ./apps/Server install ./apps/Server",
+    "build:apps": "npm run build:architect && npm run build:nc && npm run build:server",
+    "build:architect": "npm --prefix ./apps/Architect run build",
+    "build:nc": "npm --prefix ./apps/Network-Canvas run build:electron",
+    "build:server": "npm --prefix ./apps/Server run build",
+    "test": "jest --runInBand",
+    "test:interactive": "babel-node test/_run_interactive.js"
   },
   "author": "codaco",
   "license": "GPL-3.0-or-later",
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^9.0.0",
     "babel-jest": "^23.6.0",
     "babel-preset-env": "^1.7.0",
     "eslint": "^5.6.0",
@@ -20,6 +31,9 @@
   },
   "jest": {
     "rootDir": "test",
-    "setupTestFrameworkScriptFile": "../config/setupTestFramework.js"
+    "setupFiles": [
+      "<rootDir>/../config/testHelpers.js"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/../config/setupTestFramework.js"
   }
 }

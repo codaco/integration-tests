@@ -1,0 +1,9 @@
+[submodule "apps/Network-Canvas"]
+	path = apps/Network-Canvas
+	url = https://github.com/codaco/Network-Canvas.git
+[submodule "apps/Server"]
+	path = apps/Server
+	url = https://github.com/codaco/Server.git
+[submodule "apps/Architect"]
+	path = apps/Architect
+	url = https://github.com/codaco/Architect.git

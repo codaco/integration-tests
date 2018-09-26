@@ -4,6 +4,13 @@ const path = require('path');
 const appsDir = path.join(__dirname, '..', 'apps');
 const appNames = fs.readdirSync(appsDir);
 
+const getTestSuiteFiles = () => {
+  const testDir = path.join(__dirname, '..', 'test');
+  const files = fs.readdirSync(testDir);
+  const testSuffix = /\.test\.js$/;
+  return files.filter(f => (testSuffix).test(f)).map(f => f.replace(testSuffix, ''));
+};
+
 const getPackageFile = appName => path.resolve(appsDir, appName, 'www', 'package.json');
 
 /**
@@ -46,4 +53,5 @@ module.exports = {
   getAppDataDir,
   getPackageFile,
   getTestProductName,
+  getTestSuiteFiles,
 };

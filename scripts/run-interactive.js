@@ -4,7 +4,10 @@
  * This runs test script(s) outside of the test runner to make
  * debugging webdriver scripts easier.
  */
+
 const path = require('path');
+const os = require('os');
+const { getTestSuiteFiles } = require('../config/paths');
 
 // Provide the same `expect` that jest uses
 global.expect = require('expect');
@@ -27,7 +30,8 @@ try {
 } catch (err) {
   console.log('Could not find test suite', `${testSuiteName}.test.js`);
   console.log('Usage: npm run test:interactive [test-suite-name]');
-  console.log('Example: npm run test:interactive create-protocol');
+  console.log('----------');
+  console.log(getTestSuiteFiles().map(f => `npm run test:interactive ${f}`).join(os.EOL));
 }
 
 process.on('unhandledRejection', (err) => {

@@ -23,13 +23,15 @@ After `npm test` runs, these directories are cleared. See `scripts/prepare-packa
 
 Test suites use Jest's test runner and Spectron.
 
-Integration tests are written mostly like other tests in the app suite. However, debugging problems with the scripts is easier when not run inside a jest runner. The `test:interactive` script runs the same basic outside of the test runner, which leaves the electron apps running even when an assertion fails or an error is thrown:
+Integration tests are written mostly like other tests in the app suite. However, debugging problems with the scripts is easier when not run inside a jest runner. The `test:interactive` script runs the same basic outside of the test runner, which leaves the electron apps running even when an assertion fails or an error is thrown.
+
+To see a list of the available test suites:
 
 ```
 npm test:interactive
 ```
 
-If an assertion fails or an error is thrown in interactive mode, the app(s) will remain open. While developing a test with a series of interactions, you can `throw` at the end of a test to ensure that the app remains open.
+While developing a test with a series of interactions, you can `throw` at the end of a test to ensure that the app remains open.
 
 To support this mode, each test file must export three values: `setup`, `teardown`, and its array of `tests`. See existing test modules for examples.
 

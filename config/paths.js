@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const appsDir = path.join(__dirname, '..', 'apps');
+const generatedDataDir = path.join(__dirname, '..', 'test', 'generated_data');
 const appNames = fs.readdirSync(appsDir);
 
 const getTestSuiteFiles = () => {
@@ -49,6 +50,7 @@ const getAppDataDir = (testProductName) => {
 
 module.exports = {
   appsDir,
+  generatedDataDir,
   appNames,
   getAppDataDir,
   getPackageFile,

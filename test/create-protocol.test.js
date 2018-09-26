@@ -1,11 +1,17 @@
 /* eslint-env jest */
+import path from 'path';
+import fakeDialog from 'spectron-fake-dialog';
 import { makeTestingApp, startApp, stopApp } from '../config/testHelpers';
+import { generatedDataDir } from '../config/paths';
 
 let architect;
+const newProtocol = path.join(generatedDataDir, 'mock.netcanvas');
 
 const setup = async () => {
   architect = makeTestingApp('Architect');
+  await fakeDialog.apply(architect);
   await startApp(architect);
+  await fakeDialog.mock([{ method: 'showSaveDialog', value: newProtocol }]);
 };
 
 const teardown = async () => {
@@ -19,7 +25,6 @@ const showsStartupButtons = async () => {
 
 const createsASimpleProtocol = async () => {
   await architect.client.click('#create-new-protocol-button');
-  throw new Error('TODO: deal with dialog');
 };
 
 describe('Architect', () => {

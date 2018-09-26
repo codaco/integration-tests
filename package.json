@@ -31,7 +31,8 @@
     "fs-extra": "^7.0.0",
     "jest": "^23.6.0",
     "regenerator-runtime": "^0.12.1",
-    "spectron": "^4.0.0"
+    "spectron": "^4.0.0",
+    "spectron-fake-dialog": "0.0.1"
   },
   "jest": {
     "rootDir": "test",

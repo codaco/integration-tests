@@ -31,9 +31,11 @@ To see a list of the available test suites:
 npm test:interactive
 ```
 
-While developing a test with a series of interactions, you can `throw` at the end of a test to ensure that the app remains open.
+While developing a test with a series of interactions, you can add a failing assertion at the end of a test (or skip the teardown phase) to ensure that the app remains open.
 
 To support this mode, each test file must export three values: `setup`, `teardown`, and its array of `tests`. See existing test modules for examples.
+
+Note that when not run with jest, some of the usual globals are unavailable; for example, the `jest` object itself.
 
 In addition to inspecting with interactive mode, you can debug with Jest:
 

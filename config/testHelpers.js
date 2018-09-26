@@ -7,7 +7,6 @@ import { Application } from 'spectron';
 // eslint-disable-next-line global-require, import/no-dynamic-require
 const getElectronBinaryPath = appName => require(path.join(__dirname, '..', 'apps', appName, 'node_modules', 'electron'));
 
-// eslint-disable-next-line import/prefer-default-export
 export const makeTestingApp = (appName) => {
   const electronPath = getElectronBinaryPath(appName);
   const appBuild = path.join(__dirname, '..', 'apps', appName, 'www');

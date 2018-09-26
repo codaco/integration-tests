@@ -12,7 +12,7 @@
     "build:architect": "npm --prefix ./apps/Architect run build",
     "build:nc": "npm --prefix ./apps/Network-Canvas run build:electron",
     "build:server": "npm --prefix ./apps/Server run build",
-    "pretest": "node scripts/prepare-packages.js",
+    "pretest": "node scripts/prepare-packages.js && npm run clean-test-app-data",
     "test": "jest --runInBand",
     "posttest": "npm run clean-test-app-data",
     "test:interactive": "babel-node scripts/run-interactive.js",

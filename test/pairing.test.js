@@ -17,14 +17,11 @@ const teardown = async () => {
 const expectPairingToComplete = async () => {
   await ncApp.client.click('.setup__server-button');
 
-  await ncApp.client.waitForExist('.server-card--clickable', 1000);
+  await ncApp.client.waitForExist('.server-card--clickable');
   await ncApp.client.click('.server-card--clickable');
 
   await serverApp.client.waitForVisible('.pairing-prompt');
-  // const confirmPairBtn = await server.client.selectByVisibleText('Pair With Device');
-  // const confirmPairBtn = await server.client.$('.pairing-prompt .button:last-child');
-  // console.log('confirmPairBtn', confirmPairBtn);
-  await serverApp.client.pause(50); // shouldn't be needed?, but handlers need some setup time
+  await serverApp.client.pause(50); // shouldn't be needed?, but fails intermittently otherwise
   await serverApp.client.click('.pairing-prompt .button:last-child');
 
   await serverApp.client.waitForVisible('.pairing-pin__code');
@@ -38,11 +35,8 @@ const expectPairingToComplete = async () => {
     await ncApp.client.setValue(`#pairing-code-character-${input.index}`, pairingCode[i]);
   });
 
-  // Make React update state (not sure why needed)
-  await ncApp.client.click('body');
+  // await ncApp.client.click('body'); // Make React update state (not sure why needed)
   await ncApp.client.waitForVisible('.pairing-form__submit .button');
-  // ncApp.client.pause(2); // TODO: replace with waitFor*?
-
   await ncApp.client.click('.pairing-form__submit .button');
 
   expect(await ncApp.client.isVisible('.protocol-import')).toBe(true);
@@ -52,10 +46,18 @@ const expectPairingToComplete = async () => {
   expect(confirmText).toMatch('Your device is now paired');
 };
 
+// Assumes pairing has completed in expectPairingToComplete
+const showsThePairedServer = async () => {
+  await ncApp.client.click('.setup__server-button');
+  await ncApp.client.waitForExist('.server-card__label');
+  expect(ncApp.client.getText('.server-card__label')).resolves.toMatch(/paired/);
+};
+
 describe('Server/Client pairing', () => {
   beforeEach(setup);
   afterEach(teardown);
   it('completes successfully', expectPairingToComplete);
+  it('shows the paired server', showsThePairedServer);
 });
 
 module.exports = {
@@ -63,5 +65,6 @@ module.exports = {
   teardown,
   tests: [
     expectPairingToComplete,
+    showsThePairedServer,
   ],
 };

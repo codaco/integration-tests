@@ -15,13 +15,15 @@ npm test
 
 ### Test cleanup
 
-Test app builds use unique names so that data directories don't interfere with dev builds. For example, NC will use a data directory called "Network Canvas Integration Test" inside the standard application directory.
+When run with `npm test`, test app builds use unique names so that data directories don't interfere with dev builds. For example, NC will use a data directory called "Network Canvas Integration Test" inside the standard application directory.
 
-After `npm test` runs, these directories are cleared. See `scripts/prepare-packages.js` and `scripts/remove-test-data.js`. Note that these directories aren't currently cleared after each test.
+After `npm test` runs, these directories are cleared. See `scripts/prepare-packages.js` and `scripts/remove-test-data.js`. Note that these directories aren't cleared after each test; only the full test run.
+
+If you're running `test:interactive` (see below), you may want to manually run the `prepare-packages` script if it hasn't been run.
 
 ## Writing and Debugging tests
 
-Test suites use Jest's test runner and Spectron.
+Test suites use Jest's test runner and Spectron. Spectron uses WebdriverIO, whose [API](http://webdriver.io/api.html), [selector](http://webdriver.io/guide/usage/selectors.html), and [bindings & commands](http://webdriver.io/guide/usage/bindingscommands.html) docs are particularly useful.
 
 Integration tests are written mostly like other tests in the app suite. However, debugging problems with the scripts is easier when not run inside a jest runner. The `test:interactive` script runs the same basic outside of the test runner, which leaves the electron apps running even when an assertion fails or an error is thrown.
 

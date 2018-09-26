@@ -61,5 +61,7 @@ describe('Server/Client pairing', () => {
 module.exports = {
   setup,
   teardown,
-  expectPairingToComplete,
+  tests: [
+    expectPairingToComplete,
+  ],
 };

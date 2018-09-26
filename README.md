@@ -15,9 +15,13 @@ npm test
 
 ### Test cleanup
 
-Test app builds use unique names so that data directories don't interfere with dev builds. After `npm test` runs, these directories are cleared. See `scripts/prepare-packages.js` and `scripts/remove-test-data.js`.
+Test app builds use unique names so that data directories don't interfere with dev builds. For example, NC will use a data directory called "Network Canvas Integration Test" inside the standard application directory.
 
-## Writing & debugging webdriver scripts
+After `npm test` runs, these directories are cleared. See `scripts/prepare-packages.js` and `scripts/remove-test-data.js`. Note that these directories aren't currently cleared after each test.
+
+## Writing and Debugging tests
+
+Test suites use Jest's test runner and Spectron.
 
 Integration tests are written mostly like other tests in the app suite. However, debugging problems with the scripts is easier when not run inside a jest runner. The `test:interactive` script runs the same basic outside of the test runner, which leaves the electron apps running even when an assertion fails or an error is thrown:
 
@@ -25,7 +29,11 @@ Integration tests are written mostly like other tests in the app suite. However,
 npm test:interactive
 ```
 
-Jest supports standard debugging as well:
+If an assertion fails or an error is thrown in interactive mode, the app(s) will remain open. While developing a test with a series of interactions, you can `throw` at the end of a test to ensure that the app remains open.
+
+To support this mode, each test file must export three values: `setup`, `teardown`, and its array of `tests`. See existing test modules for examples.
+
+In addition to inspecting with interactive mode, you can debug with Jest:
 
 ```
 node --debug-brk --inspect node_modules/.bin/jest -i

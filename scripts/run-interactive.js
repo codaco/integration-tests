@@ -11,7 +11,7 @@ global.describe = () => {};
 
 process.env.NODE_ENV = 'test';
 
-const { setup, teardown, expectPairingToComplete } = require('../test/pairing.spec.js');
+const { setup, teardown, expectPairingToComplete } = require('../test/pairing.test.js');
 
 setup()
   .then(expectPairingToComplete)

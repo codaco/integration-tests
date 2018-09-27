@@ -35,7 +35,6 @@ const expectPairingToComplete = async () => {
     await ncApp.client.setValue(`#pairing-code-character-${input.index}`, pairingCode[i]);
   });
 
-  // await ncApp.client.click('body'); // Make React update state (not sure why needed)
   await ncApp.client.waitForVisible('.pairing-form__submit .button');
   await ncApp.client.click('.pairing-form__submit .button');
 

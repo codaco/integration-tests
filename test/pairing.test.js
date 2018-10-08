@@ -49,7 +49,7 @@ const expectPairingToComplete = async () => {
 const showsThePairedServer = async () => {
   await ncApp.client.click('.setup__server-button');
   await ncApp.client.waitForExist('.server-card__label');
-  expect(ncApp.client.getText('.server-card__label')).resolves.toMatch(/paired/);
+  expect(ncApp.client.getText('.server-setup__server .button')).resolves.toMatch(/Unpair/i);
 };
 
 describe('Server/Client pairing', () => {

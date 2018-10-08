@@ -3,7 +3,9 @@ const path = require('path');
 
 const appsDir = path.join(__dirname, '..', 'apps');
 const generatedDataDir = path.join(__dirname, '..', 'test', 'generated_data');
-const appNames = fs.readdirSync(appsDir);
+const appNames = fs.readdirSync(appsDir).filter(
+  f => fs.statSync(path.join(appsDir, f)).isDirectory(),
+);
 
 const getTestSuiteFiles = () => {
   const testDir = path.join(__dirname, '..', 'test');

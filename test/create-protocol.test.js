@@ -51,11 +51,44 @@ const createsASimpleProtocol = async () => {
   expect(fs.existsSync(newProtocol)).toBe(true);
 };
 
+const createsANewForm = async () => {
+  const formSelector = '.editor__subsection .list__item';
+
+  await architect.client.click('#create-new-protocol-button');
+
+  await architect.client.waitForVisible('=MANAGE FORMS');
+  await architect.client.click('=MANAGE FORMS');
+
+  const builtInForms = await architect.client.elements(formSelector);
+  expect(builtInForms.value).toHaveLength(1);
+
+  await architect.client.waitForVisible('=CREATE NEW FORM');
+  await architect.client.click('=CREATE NEW FORM');
+
+  await architect.client.waitForVisible('.form-fields-node-select .node');
+  await architect.client.click('.form-fields-node-select .node');
+
+  await architect.client.element('[name="title"]').setValue('Form #1');
+
+  await architect.client.waitForVisible('.form-fields-multi-select__add');
+  await architect.client.click('.form-fields-multi-select__add');
+
+  await architect.client.element('[name="fields[0].variable"]').selectByVisibleText('name');
+  await architect.client.element('[name="fields[0].component"]').selectByVisibleText('TextInput');
+
+  await architect.client.waitForVisible('span=Continue');
+  await architect.client.click('span=Continue');
+
+  const forms = await architect.client.elements(formSelector);
+  expect(forms.value).toHaveLength(2);
+};
+
 describe('Architect', () => {
   beforeEach(setup);
   afterEach(teardown);
   it('shows startup buttons', showsStartupButtons);
   it('creates a simple protocol', createsASimpleProtocol);
+  it('creates a new form', createsANewForm);
 });
 
 module.exports = {
@@ -64,5 +97,6 @@ module.exports = {
   tests: [
     showsStartupButtons,
     createsASimpleProtocol,
+    createsANewForm,
   ],
 };

@@ -10,6 +10,7 @@ npm run install:apps
 # 3. Create testable builds
 npm run build:apps
 # 4. Run tests
+npm install
 npm test
 ```
 

@@ -38,12 +38,16 @@ const createsASimpleProtocol = async () => {
   await architect.client.waitForVisible('span=Continue');
   await architect.client.click('span=Continue');
 
-  // Save changes
+  // Attempt to save changes
   // Can't waitForVisible; stacked cards remain 'visible' underneath
   await architect.client.pause(750);
   await architect.client.click('span=Back');
   await architect.client.pause(750);
   await architect.client.click('span=Save');
+
+  // Test that save action did nothing.
+  await architect.client.pause(750);
+  expect(await architect.client.isVisible('span=Save')).toBe(true);
 
   await architect.client.click('.scene__home');
   const recentlyCreated = await architect.client.elements('.recent-protocols .recent-protocols__protocol');

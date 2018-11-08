@@ -63,6 +63,7 @@ const createsANewForm = async () => {
   await architect.client.waitForVisible('=MANAGE FORMS');
   await architect.client.click('=MANAGE FORMS');
 
+  await architect.client.waitForVisible(formSelector);
   const builtInForms = await architect.client.elements(formSelector);
   expect(builtInForms.value).toHaveLength(1);
 

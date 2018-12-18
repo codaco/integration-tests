@@ -14,6 +14,10 @@ const setup = async () => {
   await startApp(architect);
   await fakeDialog.mock([{ method: 'showSaveDialog', value: newProtocol }]);
   await fs.unlink(newProtocol).catch(() => {});
+
+  // Architect now starts with a previewWindow at index 0;
+  // select the main app window:
+  await architect.client.windowByIndex(1);
 };
 
 const teardown = async () => {

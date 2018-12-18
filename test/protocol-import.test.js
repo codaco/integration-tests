@@ -3,23 +3,18 @@ import fs from 'fs-extra';
 import path from 'path';
 import fakeDialog from 'spectron-fake-dialog';
 
-import architectMainWindowIndex from '../config/architectMainWindowIndex';
+// import architectMainWindowIndex from '../config/architectMainWindowIndex';
 import { makeTestingApp, startApp, stopApps } from '../config/testHelpers';
-import { generatedDataDir } from '../config/paths';
+import { generatedDataDir, mocksDir } from '../config/paths';
 
-let architect;
 let server;
 const newProtocol = path.join(generatedDataDir, 'mock.netcanvas');
+const mockProtocol = path.join(mocksDir, 'mock.netcanvas');
 
 const setup = async () => {
-  architect = makeTestingApp('Architect');
-  server = makeTestingApp('Server');
+  await fs.copy(mockProtocol, newProtocol);
 
-  // fakeDialog maintains state & assumes a single app, but we can mock each in sequence
-  await fakeDialog.apply(architect);
-  await startApp(architect);
-  await fakeDialog.mock([{ method: 'showSaveDialog', value: newProtocol }]);
-  await architect.client.windowByIndex(architectMainWindowIndex);
+  server = makeTestingApp('Server');
 
   await fakeDialog.apply(server);
   await startApp(server);
@@ -27,18 +22,14 @@ const setup = async () => {
     { method: 'showOpenDialog', value: [newProtocol] }, // choose file to import
     { method: 'showMessageBox', value: 0 }, // confirm successful import
   ]);
-
-  await fs.unlink(newProtocol).catch(() => {});
 };
 
 const teardown = async () => {
-  await stopApps(architect, server);
+  await stopApps(server);
+  await fs.unlink(newProtocol).catch(() => {});
 };
 
 const isImportedByServer = async () => {
-  await architect.client.click('#create-new-protocol-button');
-  await architect.client.waitForVisible('.overview__manage-button');
-
   // URL change after import signals new protocol has been imported
   const originalUrl = await server.client.getUrl();
   await server.client.click('.protocol-thumbnail--add');

@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 
 const appsDir = path.join(__dirname, '..', 'apps');
+const mocksDir = path.join(__dirname, '..', 'mocks');
 const generatedDataDir = path.join(__dirname, '..', 'test', 'generated_data');
 const appNames = fs.readdirSync(appsDir).filter(
   f => fs.statSync(path.join(appsDir, f)).isDirectory(),
@@ -58,4 +59,5 @@ module.exports = {
   getPackageFile,
   getTestProductName,
   getTestSuiteFiles,
+  mocksDir,
 };

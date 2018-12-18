@@ -2,6 +2,8 @@
 import fs from 'fs-extra';
 import path from 'path';
 import fakeDialog from 'spectron-fake-dialog';
+
+import architectMainWindowIndex from '../config/architectMainWindowIndex';
 import { makeTestingApp, startApp, stopApp } from '../config/testHelpers';
 import { generatedDataDir } from '../config/paths';
 
@@ -14,6 +16,7 @@ const setup = async () => {
   await startApp(architect);
   await fakeDialog.mock([{ method: 'showSaveDialog', value: newProtocol }]);
   await fs.unlink(newProtocol).catch(() => {});
+  await architect.client.windowByIndex(architectMainWindowIndex);
 };
 
 const teardown = async () => {
@@ -26,6 +29,7 @@ const showsStartupButtons = async () => {
 };
 
 const createsASimpleProtocol = async () => {
+  await architect.client.waitForVisible('#create-new-protocol-button');
   await architect.client.click('#create-new-protocol-button');
 
   // Enter variable registry
@@ -34,7 +38,7 @@ const createsASimpleProtocol = async () => {
 
   // Edit the Node
   await architect.client.element('.variable-registry a .node').click();
-  await architect.client.element('[name="displayVariable"]').selectByVisibleText('age');
+  await architect.client.element('[name="label"]').setValue('mockLabel');
   await architect.client.waitForVisible('span=Continue');
   await architect.client.click('span=Continue');
 
@@ -42,12 +46,15 @@ const createsASimpleProtocol = async () => {
   // Can't waitForVisible; stacked cards remain 'visible' underneath
   await architect.client.pause(750);
   await architect.client.click('span=Back');
+
+  await architect.client.waitForVisible('.timeline-insert-stage-option-grid__preview');
+  await architect.client.click('.timeline-insert-stage-option-grid__preview');
+  await architect.client.waitForVisible('span=Continue');
+  await architect.client.pause(750);
+  await architect.client.click('span=Continue');
+
   await architect.client.pause(750);
   await architect.client.click('span=Save');
-
-  // Test that save action did nothing.
-  await architect.client.pause(750);
-  expect(await architect.client.isVisible('span=Save')).toBe(true);
 
   await architect.client.click('.scene__home');
   const recentlyCreated = await architect.client.elements('.recent-protocols .recent-protocols__protocol');
@@ -56,11 +63,12 @@ const createsASimpleProtocol = async () => {
 };
 
 const createsANewForm = async () => {
-  const formSelector = '.editor__subsection .list__item';
+  const formSelector = '.editor__subsection .simple-list__item';
 
   await architect.client.click('#create-new-protocol-button');
 
   await architect.client.waitForVisible('=MANAGE FORMS');
+  await architect.client.pause(750);
   await architect.client.click('=MANAGE FORMS');
 
   await architect.client.waitForVisible(formSelector);
@@ -74,12 +82,6 @@ const createsANewForm = async () => {
   await architect.client.click('.form-fields-node-select .node');
 
   await architect.client.element('[name="title"]').setValue('Form #1');
-
-  await architect.client.waitForVisible('.form-fields-multi-select__add');
-  await architect.client.click('.form-fields-multi-select__add');
-
-  await architect.client.element('[name="fields[0].variable"]').selectByVisibleText('name');
-  await architect.client.element('[name="fields[0].component"]').selectByVisibleText('TextInput');
 
   await architect.client.waitForVisible('span=Continue');
   await architect.client.click('span=Continue');

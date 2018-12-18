@@ -2,6 +2,8 @@
 import fs from 'fs-extra';
 import path from 'path';
 import fakeDialog from 'spectron-fake-dialog';
+
+import architectMainWindowIndex from '../config/architectMainWindowIndex';
 import { makeTestingApp, startApp, stopApps } from '../config/testHelpers';
 import { generatedDataDir } from '../config/paths';
 
@@ -17,6 +19,7 @@ const setup = async () => {
   await fakeDialog.apply(architect);
   await startApp(architect);
   await fakeDialog.mock([{ method: 'showSaveDialog', value: newProtocol }]);
+  await architect.client.windowByIndex(architectMainWindowIndex);
 
   await fakeDialog.apply(server);
   await startApp(server);

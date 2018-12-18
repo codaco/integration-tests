@@ -68,6 +68,7 @@ const createsANewForm = async () => {
   await architect.client.click('#create-new-protocol-button');
 
   await architect.client.waitForVisible('=MANAGE FORMS');
+  await architect.client.pause(750);
   await architect.client.click('=MANAGE FORMS');
 
   await architect.client.waitForVisible(formSelector);

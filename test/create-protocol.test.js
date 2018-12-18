@@ -29,6 +29,7 @@ const showsStartupButtons = async () => {
 };
 
 const createsASimpleProtocol = async () => {
+  await architect.client.waitForVisible('#create-new-protocol-button');
   await architect.client.click('#create-new-protocol-button');
 
   // Enter variable registry
@@ -37,7 +38,7 @@ const createsASimpleProtocol = async () => {
 
   // Edit the Node
   await architect.client.element('.variable-registry a .node').click();
-  await architect.client.element('[name="displayVariable"]').selectByVisibleText('age');
+  await architect.client.element('[name="label"]').setValue('mockLabel');
   await architect.client.waitForVisible('span=Continue');
   await architect.client.click('span=Continue');
 
@@ -45,12 +46,15 @@ const createsASimpleProtocol = async () => {
   // Can't waitForVisible; stacked cards remain 'visible' underneath
   await architect.client.pause(750);
   await architect.client.click('span=Back');
+
+  await architect.client.waitForVisible('.timeline-insert-stage-option-grid__preview');
+  await architect.client.click('.timeline-insert-stage-option-grid__preview');
+  await architect.client.waitForVisible('span=Continue');
+  await architect.client.pause(750);
+  await architect.client.click('span=Continue');
+
   await architect.client.pause(750);
   await architect.client.click('span=Save');
-
-  // Test that save action did nothing.
-  await architect.client.pause(750);
-  expect(await architect.client.isVisible('span=Save')).toBe(true);
 
   await architect.client.click('.scene__home');
   const recentlyCreated = await architect.client.elements('.recent-protocols .recent-protocols__protocol');

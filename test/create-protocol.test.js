@@ -63,7 +63,7 @@ const createsASimpleProtocol = async () => {
 };
 
 const createsANewForm = async () => {
-  const formSelector = '.editor__subsection .list__item';
+  const formSelector = '.editor__subsection .simple-list__item';
 
   await architect.client.click('#create-new-protocol-button');
 
@@ -81,12 +81,6 @@ const createsANewForm = async () => {
   await architect.client.click('.form-fields-node-select .node');
 
   await architect.client.element('[name="title"]').setValue('Form #1');
-
-  await architect.client.waitForVisible('.form-fields-multi-select__add');
-  await architect.client.click('.form-fields-multi-select__add');
-
-  await architect.client.element('[name="fields[0].variable"]').selectByVisibleText('name');
-  await architect.client.element('[name="fields[0].component"]').selectByVisibleText('TextInput');
 
   await architect.client.waitForVisible('span=Continue');
   await architect.client.click('span=Continue');
